@@ -11,7 +11,7 @@ export default class Youtube extends Component{
     constructor(props){
         super(props);
        this.state={
-           videoId:"",q:"",items:""
+           videoId:"",q:"",items:"",stats:""
        };
     }
 
@@ -29,7 +29,8 @@ export default class Youtube extends Component{
 
        let url1=`https://www.googleapis.com/youtube/v3/videos?id=${this.state.videoId}&key=${key}%20&part=id,snippet,statistics`;
         await axios.get(url1).then(function (response) {
-            console.log(response.data.items);
+            console.log(response.data.items[0].snippet);
+            console.log(response.data.items[0].statistics);
         }).catch(function (err) {
             console.log(err);
         })
@@ -47,14 +48,32 @@ export default class Youtube extends Component{
 
     click2()
     {
-       Meteor.call("hello",this.state.q,(err,res)=>{
-           if(err)
-               throw err;
-           else {
-               this.setState({items:res.data.items});
-               console.log(res);
-           }
-    })
+        Meteor.call("videos.check",this.state.q,(err,res)=>{
+            if(err)
+                throw err;
+            else
+            {
+                if(res===undefined)
+                {
+                    Meteor.call("hello",this.state.q,(err,res)=>{
+                        if(err)
+                            throw err;
+                        else
+                        {
+                            console.log(res);
+                            this.setState({items:res[0],stats:res[1]});
+                        }
+                    });
+                }
+                else
+                {
+                    console.log("data present",res);
+                    this.setState({items:res.items,stats:res.statistics});
+                }
+            }
+        });
+
+
     }
 
 
@@ -70,7 +89,7 @@ export default class Youtube extends Component{
                 <button className="btn btn-danger" onClick={this.click1.bind(this)}>Get all Comments</button><hr/>
                 <input value={this.state.q} placeholder="query_Search" onChange={this.first.bind(this)}/>
                 <button className="btn btn-info" onClick={this.click2.bind(this)}>Get related videos</button><hr/>
-                <Table  data={this.state.items}/>
+               {/* <Table  data={this.state.items}/>*/}
             </div>
         )
     }

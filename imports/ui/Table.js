@@ -9,7 +9,7 @@ export default class Table extends Component{
 
 
     getdata(data){
-        console.log("map",data);
+      //  console.log("map",data);
         data=data.data||[];
         data=data.data||[];
 
