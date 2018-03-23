@@ -18,15 +18,17 @@ Meteor.methods({
          let hi=`https://www.googleapis.com/youtube/v3/videos?id=${whole_id}&key=${key}%20&part=id,statistics`;
          let res1=HTTP.call("get",hi);
          console.log(res1.data.items);
-         Meteor.call("videos.insert",q,res.data.items,res1.data.items,(err,res)=>{
+
+         let yo=[];
+         for(var i=0;i<res.data.items.length;i++)
+             yo.push({item:res.data.items[i],stats:res1.data.items[i]});
+         console.log(yo);
+         Meteor.call("videos.insert",q,yo,(err,res)=>{
              if(err)
                  throw err;
              else
                  console.log("data stored",res);
          });
-         let yo=[];
-         yo.push(res.data.items);
-         yo.push(res1.data.items);
         return yo;
     }
 

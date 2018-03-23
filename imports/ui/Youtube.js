@@ -11,7 +11,7 @@ export default class Youtube extends Component{
     constructor(props){
         super(props);
        this.state={
-           videoId:"",q:"",items:"",stats:""
+           videoId:"",q:"",items:""
        };
     }
 
@@ -61,14 +61,14 @@ export default class Youtube extends Component{
                         else
                         {
                             console.log(res);
-                            this.setState({items:res[0],stats:res[1]});
+                            this.setState({items:res});
                         }
                     });
                 }
                 else
                 {
                     console.log("data present",res);
-                    this.setState({items:res.items,stats:res.statistics});
+                    this.setState({items:res.yo});
                 }
             }
         });
@@ -89,7 +89,7 @@ export default class Youtube extends Component{
                 <button className="btn btn-danger" onClick={this.click1.bind(this)}>Get all Comments</button><hr/>
                 <input value={this.state.q} placeholder="query_Search" onChange={this.first.bind(this)}/>
                 <button className="btn btn-info" onClick={this.click2.bind(this)}>Get related videos</button><hr/>
-               {/* <Table  data={this.state.items}/>*/}
+                <Table  data={{items:this.state.items}} />
             </div>
         )
     }

@@ -8,25 +8,26 @@ export default class Table extends Component{
     }
 
 
-    getdata(data){
-      //  console.log("map",data);
-        data=data.data||[];
-        data=data.data||[];
+    getdata(data) {
+        console.log("map", data);
+        data = data.items|| [];
 
-        return data.map((task, key) => {
-            // return <li key={key}>{task.id}{task.name}  {task.fan_count}  {task.rating_count}</li>
-            return(
-                <tr className="alert alert-dark" key={key}>
-                    <th>{task.id}</th>
-                    <th>{task.name}</th>
-                    <th>{task.fan_count}</th>
-                    <th>{task.rating_count}</th>
-                    <img src={task.picture.data.url} alt="" border="3" height="100" width="100" />
-                    <hr/>
-                </tr>
-            )
-        })
-    }
+            return data.map((task, key) => {
+                console.log(task);
+                return (
+                    <tr className="alert alert-dark" key={key}>
+                        <th>{task.item.snippet.title}</th>
+                        <th>{task.item.snippet.publishedAt}</th>
+                        <th>{task.stats.statistics.viewCount}</th>
+                        <th>{task.stats.statistics.likeCount}</th>
+                        <th>{task.stats.statistics.dislikeCount}</th>
+                        <th>{task.stats.statistics.favoriteCount}</th>
+                        <th>{task.stats.statistics.commentCount}</th>
+                    </tr>
+                )
+            })
+        }
+
 
     render(){
 
@@ -34,13 +35,17 @@ export default class Table extends Component{
         return(
             <table className="table table-bordered">
                 <tr className="alert alert-success">
-                    <th>id</th>
-                    <th>Name</th>
-                    <th>Fan_count</th>
-                    <th>Rating_count</th>
-                    <th>LOGO</th>
+                    <th>Title</th>
+                    <th>Published_at</th>
+                    <th>view_count</th>
+                    <th>like_count</th>
+                    <th>dislike_count</th>
+                    <th>favorite_count</th>
+                    <th>Comment_count</th>
                 </tr>
+                <tbody>
                 {this.getdata(this.props.data)}
+                </tbody>
             </table>
         )
     }
