@@ -7,7 +7,7 @@ Meteor.methods({
      "hello"(q){
         let url=`https://www.googleapis.com/youtube/v3/search?part=snippet%2Cid&maxResults=50&q=${q}&type=video&key=${key}`;
        let res=HTTP.call("get",url);
-       let snippet,statistics,whole_id="";
+       let snippet,statistics,whole_id="",comments=[];
        snippet=statistics=[];
        whole_id=res.data.items[0].id.videoId;
        for(let i=1;i<(res.data.items.length);i++)
